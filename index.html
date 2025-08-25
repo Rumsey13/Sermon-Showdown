@@ -18,40 +18,40 @@
 
   <!-- MAIN GAME CONTENT -->
   <div id="gameContent">
-  <h1 class="logo-text">Pastor Wars</h1>
-  
-  <!-- Random category picker -->
-  <button id="randomButton" onclick="pickRandomCategory()">Pick Category!</button>
-  <div id="randomBox"></div>
+    <h1 class="logo-text">Pastor Wars</h1>
 
-  <!-- Timer wrapper -->
-  <div id="timerContainer">
-    <button id="timerButton" onclick="startTimer()">🕒</button>
-    <div id="timerOutput" class="timer-display">60s</div>
-  </div> 
+    <!-- Random category picker -->
+    <button id="randomButton" onclick="pickRandomCategory()">Pick Category!</button>
+    <div id="randomBox"></div>
 
-  <!-- Card buttons -->
-  <div class="card-buttons">
-    <button class="card" onclick="pickFromCard(0)">Movies</button>
-    <button class="card" onclick="pickFromCard(1)">Music</button>
-    <button class="card" onclick="pickFromCard(2)">Games</button>
-    <button class="card" onclick="pickFromCard(3)">Items</button>
-    <button class="card" onclick="pickFromCard(4)">TV Shows</button>
+    <!-- Timer wrapper -->
+    <div id="timerContainer">
+      <button id="timerButton" onclick="startTimer()">🕒</button>
+      <div id="timerOutput" class="timer-display">60s</div>
+    </div> 
+
+    <!-- Card buttons -->
+    <div class="card-buttons">
+      <button class="card" onclick="pickFromCard(0)">Movies</button>
+      <button class="card" onclick="pickFromCard(1)">Music</button>
+      <button class="card" onclick="pickFromCard(2)">Games</button>
+      <button class="card" onclick="pickFromCard(3)">Items</button>
+      <button class="card" onclick="pickFromCard(4)">TV Shows</button>
+    </div>
+
+    <!-- Popup card -->
+    <div id="popupCard" onclick="closePopup()">
+      <div id="popupContent"></div>
+    </div>
   </div>
 
-  <!-- Rules Button -->
-  <button id="rulesButton" onclick="openRules()">Rules</button>
-
-  <!-- Popup card -->
-  <div id="popupCard" onclick="closePopup()">
-    <div id="popupContent"></div>
-  </div>
-</div>
   <!-- Player silhouettes -->
   <div id="playerLeft" class="player-side"></div>
   <div id="playerRight" class="player-side"></div>
 
   <script src="script.js"></script>
+
+
 
 <!-- Rules Popup -->
 <div id="rulesPopup" class="popup">
@@ -67,6 +67,8 @@
      <h3> Disclaimer: Sermon Showdown is currently set up as a hosted game the "host" is responsible for all button presses and point updates </h3>
   </div>
 </div>
+<div id="gamecontent">
 <button id="rulesButton" onclick="openRules()">Rules</button>
+</div>
 </body>
 </html>
