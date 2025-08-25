@@ -1,9 +1,13 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  padding-top: 100px;
   margin: 0;
   background-color: #222;
+  height: 100%;
+}
+
+html, body {
+  height: 100%;
 }
 
 #gameContent {
@@ -12,7 +16,11 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
-  padding-top: 50px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* or center if you want it vertically centered */
 }
 
 #startScreen {
@@ -257,3 +265,4 @@ body {
     opacity: 1;
   }
 }
+
