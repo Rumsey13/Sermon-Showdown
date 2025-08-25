@@ -227,4 +227,15 @@ document.querySelectorAll(".card").forEach((btn, index) => {
 // -------------------------------
 // POPUP CLICK TO CLOSE
 // -------------------------------
+
 popup.addEventListener("click", closePopup);
+
+function openRules() {
+  document.getElementById("rulesPopup").classList.add("show");
+}
+
+function closeRules() {
+  document.getElementById("rulesPopup").classList.remove("show");
+}
+
+
