@@ -54,7 +54,11 @@ let availableCategories = [...categories];
 let lastCategory = null;
 
 function pickRandomCategory() {
-  resetTimer();
+  resetTimer(); // reset timer each time category is picked
+
+  // Change button text to "Reroll"
+  const randomButton = document.getElementById("randomButton");
+  randomButton.textContent = "Reroll";
 
   if (availableCategories.length === 0) availableCategories = [...categories];
 
@@ -67,7 +71,6 @@ function pickRandomCategory() {
   lastCategory = chosen;
   randomBox.textContent = chosen;
 }
-
 // -------------------------------
 // TIMER FUNCTION
 // -------------------------------
@@ -83,18 +86,44 @@ function startTimer() {
 
   timerInterval = setInterval(() => {
     timeLeft--;
-    timerOutput.textContent = timeLeft > 0 ? `${timeLeft}s` : "Preach!";
-    if (timeLeft <= 0) {
+    if (timeLeft > 0) {
+      timerOutput.textContent = `${timeLeft}s`;
+    } else {
       clearInterval(timerInterval);
-      timerBtn.style.display = "flex";
+
+      // Show "Preach!" with animation
+      timerOutput.textContent = "Preach!";
+      timerOutput.classList.add("preach");
+
+      // Wait for animation to finish (1s here)
+      setTimeout(() => {
+        // Remove animation class
+        timerOutput.classList.remove("preach");
+        // Hide timer display
+        timerOutput.style.display = "none";
+        timerOutput.textContent = "60s";
+
+        // Show the clock button
+        timerBtn.style.display = "flex";
+
+        // Reset random button
+        document.getElementById("randomButton").textContent = "Pick Category";
+
+        // Move to next player
+        nextTurn();
+      }, 2000); // match the CSS animation duration
     }
   }, 1000);
 }
-
 function resetTimer() {
   clearInterval(timerInterval);
   timerBtn.style.display = "flex";
   timerOutput.style.display = "none";
+  timerOutput.textContent = "60s"; // reset the timer display
+
+  // Reset the random button text
+  const randomButton = document.getElementById("randomButton");
+  randomButton.textContent = "Pick Category";
 }
 
 // -------------------------------
@@ -159,51 +188,84 @@ function createPlayerSilhouettesWithNames(numPlayers) {
     const playerDiv = document.createElement("div");
     playerDiv.classList.add("player-container");
 
-    const sil = document.createElement("div");
-    sil.classList.add("player-silhouette");
-    sil.textContent = name;
-    sil.style.display = "flex";
-    sil.style.alignItems = "center";
-    sil.style.justifyContent = "center";
-    sil.style.color = "white";
-    sil.style.fontWeight = "bold";
+    // Circle container
+    const circleDiv = document.createElement("div");
+    circleDiv.classList.add("player-silhouette");
 
-    playerDiv.appendChild(sil);
+    // Optional: add image inside the circle
+    const img = document.createElement("img");
+    img.src = "avatar.png"; // replace with each player's image if you want
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.borderRadius = "50%";
+    img.style.objectFit = "cover";
+    circleDiv.appendChild(img);
+
+    playerDiv.appendChild(circleDiv);
+
+    // Player name below circle
+    const nameDiv = document.createElement("div");
+    nameDiv.textContent = name;
+    nameDiv.style.color = "white";
+    nameDiv.style.fontWeight = "bold";
+    nameDiv.style.textAlign = "center";
+    nameDiv.style.marginTop = "6px";
+    playerDiv.appendChild(nameDiv);
 
     if (index < 4) playerLeftContainer.appendChild(playerDiv);
     else playerRightContainer.appendChild(playerDiv);
   });
 }
-
 // -------------------------------
 // SCORE CONTROLS
 // -------------------------------
 function addScoreControls() {
-  const totalPlayers = playerLeftContainer.children.length + playerRightContainer.children.length;
+  // Wait until player silhouettes exist
+  const allPlayers = [...playerLeftContainer.children, ...playerRightContainer.children];
 
-  for (let i = 0; i < totalPlayers; i++) {
-    const playerContainer = i < 4 ? playerLeftContainer.children[i] : playerRightContainer.children[i - 4];
-
+  allPlayers.forEach(playerContainer => {
     // Skip if already has score controls
-    if (playerContainer.querySelector(".player-score-container")) continue;
+    if (playerContainer.querySelector(".player-score-container")) return;
 
     const scoreDiv = document.createElement("div");
     scoreDiv.classList.add("player-score-container");
 
+    // Minus button
     const minusBtn = document.createElement("button");
-    minusBtn.textContent = "-";
     minusBtn.classList.add("score-btn");
+    minusBtn.style.padding = "0";
+    minusBtn.style.border = "none";
+    minusBtn.style.background = "none";
+    minusBtn.style.cursor = "pointer";
 
+    const minusImg = document.createElement("img");
+    minusImg.src = "minus.png";
+    minusImg.style.width = "25px";
+    minusImg.style.height = "25px";
+    minusBtn.appendChild(minusImg);
+
+    // Score text
     const scoreText = document.createElement("span");
     scoreText.textContent = "0";
     scoreText.classList.add("score-text");
 
+    // Plus button
     const plusBtn = document.createElement("button");
-    plusBtn.textContent = "+";
     plusBtn.classList.add("score-btn");
+    plusBtn.style.padding = "0";
+    plusBtn.style.border = "none";
+    plusBtn.style.background = "none";
+    plusBtn.style.cursor = "pointer";
 
+    const plusImg = document.createElement("img");
+    plusImg.src = "plus.png";
+    plusImg.style.width = "25px";
+    plusImg.style.height = "25px";
+    plusBtn.appendChild(plusImg);
+
+    // Click events
     minusBtn.addEventListener("click", () => {
-      scoreText.textContent = parseInt(scoreText.textContent) - 1;
+      scoreText.textContent = Math.max(0, parseInt(scoreText.textContent) - 1);
     });
     plusBtn.addEventListener("click", () => {
       scoreText.textContent = parseInt(scoreText.textContent) + 1;
@@ -214,9 +276,8 @@ function addScoreControls() {
     scoreDiv.appendChild(plusBtn);
 
     playerContainer.appendChild(scoreDiv);
-  }
+  });
 }
-
 // -------------------------------
 // ATTACH EVENT LISTENERS TO CARDS
 // -------------------------------
@@ -227,8 +288,24 @@ document.querySelectorAll(".card").forEach((btn, index) => {
 // -------------------------------
 // POPUP CLICK TO CLOSE
 // -------------------------------
-
 popup.addEventListener("click", closePopup);
+
+
+function openRules() {
+  document.getElementById("rulesPopup").style.display = "block";
+}
+
+function closeRules() {
+  document.getElementById("rulesPopup").style.display = "none";
+}
+
+// Optional: close popup when clicking outside
+window.onclick = function(event) {
+  let popup = document.getElementById("rulesPopup");
+  if (event.target === popup) {
+    popup.style.display = "none";
+  }
+}
 
 function openRules() {
   document.getElementById("rulesPopup").classList.add("show");
@@ -237,5 +314,3 @@ function openRules() {
 function closeRules() {
   document.getElementById("rulesPopup").classList.remove("show");
 }
-
-
