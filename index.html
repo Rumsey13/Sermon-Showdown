@@ -9,7 +9,7 @@
 
   <!-- START SCREEN OVERLAY -->
   <div id="startScreen">
-    <h1>Pastor Wars</h1>
+
     <label for="numPlayers">Number of Players:</label>
     <input type="number" id="numPlayers" min="1" max="8" value="2">
     <div id="playerNamesContainer"></div>
@@ -18,26 +18,31 @@
 
   <!-- MAIN GAME CONTENT -->
   <div id="gameContent">
-    <h1 class="logo-text">Pastor Wars</h1>
+  <div id="playercontainer"></div>
+    
 
     <!-- Random category picker -->
     <button id="randomButton" onclick="pickRandomCategory()">Pick Category!</button>
     <div id="randomBox"></div>
 
-    <!-- Timer wrapper -->
-    <div id="timerContainer">
-      <button id="timerButton" onclick="startTimer()">🕒</button>
-      <div id="timerOutput" class="timer-display">60s</div>
-    </div> 
+    <div id="gameArea">
 
-    <!-- Card buttons -->
-    <div class="card-buttons">
-      <button class="card" onclick="pickFromCard(0)">Movies</button>
-      <button class="card" onclick="pickFromCard(1)">Music</button>
-      <button class="card" onclick="pickFromCard(2)">Games</button>
-      <button class="card" onclick="pickFromCard(3)">Items</button>
-      <button class="card" onclick="pickFromCard(4)">TV Shows</button>
-    </div>
+  <!-- TIMER -->
+  <div id="timerContainer">
+    <button id="timerButton" onclick="startTimer()">🕒</button>
+    <div id="timerOutput" class="timer-display">60s</div>
+  </div>
+
+  <!-- CARD BUTTONS -->
+  <div class="card-buttons">
+    <button class="card" onclick="pickFromCard(0)">Movies</button>
+    <button class="card" onclick="pickFromCard(1)">Music</button>
+    <button class="card" onclick="pickFromCard(2)">Games</button>
+    <button class="card" onclick="pickFromCard(3)">Items</button>
+    <button class="card" onclick="pickFromCard(4)">TV Shows</button>
+  </div>
+
+</div>
 
     <!-- Popup card -->
     <div id="popupCard" onclick="closePopup()">
@@ -64,11 +69,32 @@
     <p>step 4 after the mini sermon is finished the other players vote if  majority rules you get a point first to 5 wins  </p>
     <p>step 5. press the pick catagory button again to reset the timer </p>
 
-     <h3> Disclaimer: Sermon Showdown is currently set up as a hosted game the "host" is responsible for all button presses and point updates </h3>
+     <h3> Rules</h3>
+     <p> when drawing your card, your sermon may pull inspiration from multiple points of the topic for example: when drawing a song card your illustration may be based on lyrics or the title of the song, or with a movie the theme, a scene, lines, or characters from the movie may be used.</p>
+<p> unlike the ten commandments we encourage stealing ( of points in this game ) want to steal a point wait for your opponent to stray off topic or use an illustration from a different topic accidently and be the first to call them out and instantly give a proper illustration to gain the point</p>
+
+     <h4> Disclaimer: Sermon Showdown is currently set up as a hosted game the "host" is responsible for all button presses and point updates </h4>
+     
   </div>
 </div>
-<div id="gamecontent">
-<button id="rulesButton" onclick="openRules()">Rules</button>
+<!-- Top buttons -->
+<div class="top-buttons">
+  <button id="rulesButton" onclick="openRules()">Rules</button>
+  <button id="donateButton" onclick="openDonate()">Donate</button>
+</div>
+
+<!-- Donate Popup -->
+<div id="donatePopup" class="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closeDonate()">&times;</span>
+    <h2>Support the Game</h2>
+    <p>You can support us via:</p>
+    <ul>
+      <li><a href="https://www.paypal.com/paypalme/Joshuasprings13" target="_blank">PayPal</a></li>
+      <li><a href="https://www.venmo.com/u/joshuasprings" target="_blank">Venmo</a></li>
+    </ul>
+    <p>We appreciate you helping playtest our game and for any donations you choose to give. Your donations will help further develop this project into a fully fledged board game.</p>
+  </div>
 </div>
 </body>
 </html>

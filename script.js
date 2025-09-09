@@ -1,4 +1,4 @@
-// Pastor Wars - v0.2
+// Pastor Wars - v0.3
 
 // -------------------------------
 // ELEMENT REFERENCES
@@ -18,6 +18,13 @@ const timerOutput = document.getElementById("timerOutput");
 
 const popup = document.getElementById("popupCard");
 const popupContent = document.getElementById("popupContent");
+
+// -------------------------------
+// INITIAL SETUP
+// -------------------------------
+gameContent.style.display = "none"; // hide game content initially
+timerOutput.style.display = "none"; // hide timer initially
+timerBtn.style.display = "flex"; // show clock initially
 
 // -------------------------------
 // DYNAMIC PLAYER NAME INPUTS
@@ -44,6 +51,7 @@ startGameButton.addEventListener("click", () => {
   const numPlayers = parseInt(numPlayersInput.value) || 1;
   createPlayerSilhouettesWithNames(numPlayers);
   addScoreControls();
+  assignRandomIcons(numplayers);
 });
 
 // -------------------------------
@@ -56,7 +64,6 @@ let lastCategory = null;
 function pickRandomCategory() {
   resetTimer(); // reset timer each time category is picked
 
-  // Change button text to "Reroll"
   const randomButton = document.getElementById("randomButton");
   randomButton.textContent = "Reroll";
 
@@ -71,14 +78,15 @@ function pickRandomCategory() {
   lastCategory = chosen;
   randomBox.textContent = chosen;
 }
+
 // -------------------------------
 // TIMER FUNCTION
 // -------------------------------
 let timerInterval = null;
 
 function startTimer() {
-  timerBtn.style.display = "none";
-  timerOutput.style.display = "flex";
+  timerBtn.style.display = "none";      // hide clock
+  timerOutput.style.display = "flex";   // show timer
 
   clearInterval(timerInterval);
   let timeLeft = 60;
@@ -90,40 +98,27 @@ function startTimer() {
       timerOutput.textContent = `${timeLeft}s`;
     } else {
       clearInterval(timerInterval);
-
-      // Show "Preach!" with animation
       timerOutput.textContent = "Preach!";
       timerOutput.classList.add("preach");
 
-      // Wait for animation to finish (1s here)
       setTimeout(() => {
-        // Remove animation class
         timerOutput.classList.remove("preach");
-        // Hide timer display
-        timerOutput.style.display = "none";
+        timerOutput.style.display = "none"; // hide timer
+        timerBtn.style.display = "flex";    // show clock
         timerOutput.textContent = "60s";
-
-        // Show the clock button
-        timerBtn.style.display = "flex";
-
-        // Reset random button
         document.getElementById("randomButton").textContent = "Pick Category";
-
-        // Move to next player
         nextTurn();
-      }, 2000); // match the CSS animation duration
+      }, 3000);
     }
   }, 1000);
 }
+
 function resetTimer() {
   clearInterval(timerInterval);
-  timerBtn.style.display = "flex";
   timerOutput.style.display = "none";
-  timerOutput.textContent = "60s"; // reset the timer display
-
-  // Reset the random button text
-  const randomButton = document.getElementById("randomButton");
-  randomButton.textContent = "Pick Category";
+  timerBtn.style.display = "flex";
+  timerOutput.textContent = "60s";
+  document.getElementById("randomButton").textContent = "Pick Category";
 }
 
 // -------------------------------
@@ -156,7 +151,6 @@ function pickFromCard(cardIndex) {
   availableItems[cardIndex].splice(availableItems[cardIndex].indexOf(chosen), 1);
 
   popupContent.textContent = chosen;
-
   const buttonColors = ["#ff6666", "#66ff66", "#6666ff", "#ffcc66", "#66ffff"];
   popupContent.style.backgroundColor = buttonColors[cardIndex];
 
@@ -166,14 +160,9 @@ function pickFromCard(cardIndex) {
 
 function closePopup() {
   popup.classList.remove("show");
-  setTimeout(() => {
-    popup.style.display = "none";
-  }, 400);
+  setTimeout(() => popup.style.display = "none", 400);
 }
 
-// -------------------------------
-// PLAYER SILHOUETTES & NAMES
-// -------------------------------
 function createPlayerSilhouettesWithNames(numPlayers) {
   playerLeftContainer.innerHTML = "";
   playerRightContainer.innerHTML = "";
@@ -184,17 +173,31 @@ function createPlayerSilhouettesWithNames(numPlayers) {
     names.push(input ? input.value || `Player ${i}` : `Player ${i}`);
   }
 
+  // Array of your custom PNG filenames
+  const playerImages = [
+    "avatar1.png",
+    "avatar2.png",
+    "avatar3.png",
+    "avatar4.png",
+    "avatar5.png",
+    "avatar6.png",
+    "avatar7.png",
+    "avatar8.png"
+  ];
+
   names.forEach((name, index) => {
     const playerDiv = document.createElement("div");
     playerDiv.classList.add("player-container");
 
-    // Circle container
     const circleDiv = document.createElement("div");
     circleDiv.classList.add("player-silhouette");
 
-    // Optional: add image inside the circle
     const img = document.createElement("img");
-    img.src = "avatar.png"; // replace with each player's image if you want
+
+    // Pick a random image from the array
+    const randomIndex = Math.floor(Math.random() * playerImages.length);
+    img.src = playerImages[randomIndex];
+
     img.style.width = "100%";
     img.style.height = "100%";
     img.style.borderRadius = "50%";
@@ -203,7 +206,6 @@ function createPlayerSilhouettesWithNames(numPlayers) {
 
     playerDiv.appendChild(circleDiv);
 
-    // Player name below circle
     const nameDiv = document.createElement("div");
     nameDiv.textContent = name;
     nameDiv.style.color = "white";
@@ -220,23 +222,16 @@ function createPlayerSilhouettesWithNames(numPlayers) {
 // SCORE CONTROLS
 // -------------------------------
 function addScoreControls() {
-  // Wait until player silhouettes exist
   const allPlayers = [...playerLeftContainer.children, ...playerRightContainer.children];
 
   allPlayers.forEach(playerContainer => {
-    // Skip if already has score controls
     if (playerContainer.querySelector(".player-score-container")) return;
 
     const scoreDiv = document.createElement("div");
     scoreDiv.classList.add("player-score-container");
 
-    // Minus button
     const minusBtn = document.createElement("button");
     minusBtn.classList.add("score-btn");
-    minusBtn.style.padding = "0";
-    minusBtn.style.border = "none";
-    minusBtn.style.background = "none";
-    minusBtn.style.cursor = "pointer";
 
     const minusImg = document.createElement("img");
     minusImg.src = "minus.png";
@@ -244,18 +239,12 @@ function addScoreControls() {
     minusImg.style.height = "25px";
     minusBtn.appendChild(minusImg);
 
-    // Score text
     const scoreText = document.createElement("span");
     scoreText.textContent = "0";
     scoreText.classList.add("score-text");
 
-    // Plus button
     const plusBtn = document.createElement("button");
     plusBtn.classList.add("score-btn");
-    plusBtn.style.padding = "0";
-    plusBtn.style.border = "none";
-    plusBtn.style.background = "none";
-    plusBtn.style.cursor = "pointer";
 
     const plusImg = document.createElement("img");
     plusImg.src = "plus.png";
@@ -263,7 +252,6 @@ function addScoreControls() {
     plusImg.style.height = "25px";
     plusBtn.appendChild(plusImg);
 
-    // Click events
     minusBtn.addEventListener("click", () => {
       scoreText.textContent = Math.max(0, parseInt(scoreText.textContent) - 1);
     });
@@ -278,6 +266,7 @@ function addScoreControls() {
     playerContainer.appendChild(scoreDiv);
   });
 }
+
 // -------------------------------
 // ATTACH EVENT LISTENERS TO CARDS
 // -------------------------------
@@ -290,27 +279,76 @@ document.querySelectorAll(".card").forEach((btn, index) => {
 // -------------------------------
 popup.addEventListener("click", closePopup);
 
-
-function openRules() {
-  document.getElementById("rulesPopup").style.display = "block";
-}
-
-function closeRules() {
-  document.getElementById("rulesPopup").style.display = "none";
-}
-
-// Optional: close popup when clicking outside
-window.onclick = function(event) {
-  let popup = document.getElementById("rulesPopup");
-  if (event.target === popup) {
-    popup.style.display = "none";
-  }
-}
-
+// -------------------------------
+// RULES POPUP
+// -------------------------------
 function openRules() {
   document.getElementById("rulesPopup").classList.add("show");
 }
-
 function closeRules() {
   document.getElementById("rulesPopup").classList.remove("show");
+
+}
+
+
+// -------------------------------
+// DONATE POPUP
+// -------------------------------
+function openDonate() {
+  const popup = document.getElementById("donatePopup");
+  popup.classList.add("show");
+}
+
+function closeDonate() {
+  const popup = document.getElementById("donatePopup");
+  popup.classList.remove("show");
+}
+
+// Optional: close donate popup when clicking outside
+window.addEventListener("click", function(event) {
+  const donatePopup = document.getElementById("donatePopup");
+  if (event.target === donatePopup) {
+    donatePopup.classList.remove("show");
+  }
+});
+
+
+
+function assignRandomIcons(numPlayers) {
+  const icons = [
+    "images/player1.png",
+    "images/player2.png",
+    "images/player3.png",
+    "images/player4.png",
+    "images/player5.png",
+    "images/player6.png",
+    "images/player7.png",
+    "images/player8.png"
+  ];
+
+  // Shuffle icons so each game is different
+  let shuffled = [...icons].sort(() => 0.5 - Math.random());
+
+  // Clear old players
+  const container = document.getElementById("playersContainer");
+  container.innerHTML = "";
+
+  // Create players
+  for (let i = 0; i < numPlayers; i++) {
+    let playerDiv = document.createElement("div");
+    playerDiv.classList.add("player-slot");
+
+    // Icon
+    let img = document.createElement("img");
+    img.classList.add("player-icon");
+    img.src = shuffled[i]; // assign unique icon
+
+    // Label
+    let label = document.createElement("div");
+    label.textContent = `Player ${i + 1}`;
+
+    playerDiv.appendChild(img);
+    playerDiv.appendChild(label);
+    container.appendChild(playerDiv);
+  }
 }
