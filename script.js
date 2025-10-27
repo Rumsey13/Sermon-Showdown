@@ -126,8 +126,8 @@ function resetTimer() {
 // -------------------------------
 const categoryItems = [
   ["Inception","Avatar","Titanic","The Matrix","Joker","Avengers: Endgame","The Dark Knight","Interstellar","Gladiator","Forrest Gump","The Lord of the Rings","Star Wars: A New Hope","Jurassic Park","Pirates of the Caribbean","Toy Story","The Lion King","The Godfather","Harry Potter","Spider-Man: No Way Home","Black Panther"],
-  ["Blinding Lights - The Weeknd","Shape of You - Ed Sheeran","Bad Guy - Billie Eilish","Uptown Funk - Mark Ronson ft. Bruno Mars","Rolling in the Deep - Adele","Bohemian Rhapsody - Queen","Happy - Pharrell Williams","Lose Yourself - Eminem","Old Town Road - Lil Nas X","Hey Jude - The Beatles","Shallow - Lady Gaga & Bradley Cooper","Stay - The Kid LAROI & Justin Bieber","Poker Face - Lady Gaga","Smells Like Teen Spirit - Nirvana","Levitating - Dua Lipa","Watermelon Sugar - Harry Styles","Thunderstruck - AC/DC","Paint It Black - The Rolling Stones","Call Me Maybe - Carly Rae Jepsen","All of Me - John Legend"],
-  ["Minecraft","Fortnite","The Legend of Zelda","Super Mario Odyssey","Call of Duty","Animal Crossing","Overwatch","League of Legends","Halo","Among Us","Grand Theft Auto V","Elden Ring","Cyberpunk 2077","God of War","Red Dead Redemption 2","Hades","Stardew Valley","The Witcher 3","Mario Kart 8","Super Smash Bros"],
+  ["Blinding Lights - The Weeknd","Shape of You - Ed Sheeran","Bad Guy - Billie Eilish","See you Again - Wiz Khalifa ft Charlie Puth","Rolling in the Deep - Adele","Bohemian Rhapsody - Queen","Happy - Pharrell Williams","Lose Yourself - Eminem","Old Town Road - Lil Nas X","Man in The Mirror- Michael Jackson","Shallow - Lady Gaga & Bradley Cooper","Dont Stop Believin- Journey","Poker Face - Lady Gaga","Smells Like Teen Spirit - Nirvana","Royals-Lorde","Viva La Vida","Thunderstruck - AC/DC","Paint It Black - The Rolling Stones","Let it Be - The Beatles ","All of Me - John Legend"],
+  ["Minecraft","Fortnite","The Legend of Zelda","Super Mario Odyssey","Call of Duty","Animal Crossing","Overwatch","League of Legends","Halo","Among Us","Grand Theft Auto ","Elden Ring","Cyberpunk 2077","God of War","Red Dead Redemption ","Hades","Stardew Valley","The Witcher ","Mario Kart ","Super Smash Bros"],
   ["Fork","Tractor","Tire","Notebook","Backpack","Lamp","Bicycle","Phone","Chair","Cup","Bottle","Glasses","Shoes","Clock","Pen","Headphones","Pillow","Table","Wallet","Spoon"],
   ["Friends","Breaking Bad","The Office","Stranger Things","Game of Thrones","The Simpsons","The Mandalorian","Better Call Saul","Grey's Anatomy","Seinfeld","The Crown","Sherlock","Westworld","The Witcher","Rick and Morty","How I Met Your Mother","Lost","The Big Bang Theory","House of Cards","The Boys"]
 ];
@@ -351,4 +351,5 @@ function assignRandomIcons(numPlayers) {
     playerDiv.appendChild(label);
     container.appendChild(playerDiv);
   }
+
 }
